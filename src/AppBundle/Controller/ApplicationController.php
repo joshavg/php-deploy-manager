@@ -129,9 +129,9 @@ class ApplicationController extends Controller
     private function createDeleteForm(Application $application)
     {
         return $this->createFormBuilder()
-                    ->setAction($this->generateUrl('application_delete',
-                                                   array('id' => $application->getId())))
-                    ->setMethod('DELETE')
-                    ->getForm();
+            ->setAction($this->generateUrl('application_delete',
+                array('id' => $application->getId())))
+            ->setMethod('DELETE')
+            ->getForm();
     }
 }
