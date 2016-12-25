@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Applicationconfigs list</h1>
+
+    <table class="table table-hover table-striped">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Url</th>
+                <th>Last Deploy</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for applicationConfig in applicationConfigs %}
+            <tr>
+                <td><a href="{{ path('applicationconfig_show', { 'id': applicationConfig.id }) }}">{{ applicationConfig.id }}</a></td>
+                <td>{{ applicationConfig.title }}</td>
+                <td>{{ applicationConfig.description }}</td>
+                <td>
+                    <a href="{{ applicationConfig.url }}" target="_blank">
+                        {{ applicationConfig.url }}
+                    </a>
+                </td>
+                <td>{% if applicationConfig.lastDeploy %}{{ applicationConfig.lastDeploy|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('applicationconfig_show', { 'id': applicationConfig.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('applicationconfig_edit', { 'id': applicationConfig.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('applicationconfig_new') }}">Create a new applicationConfig</a>
+        </li>
+    </ul>
+{% endblock %}

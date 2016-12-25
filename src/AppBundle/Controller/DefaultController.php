@@ -13,11 +13,11 @@ class DefaultController extends Controller
      */
     public function indexAction(Request $request)
     {
-        $apps = $this->getDoctrine()->getRepository('AppBundle:Application')->findAll();
+        //$apps = $this->getDoctrine()->getRepository('AppBundle:Application')->findAll();
 
         // replace this example code with whatever you need
         return $this->render('default/index.html.twig', [
-            'apps' => $apps
+            'apps' => []
         ]);
     }
 }
