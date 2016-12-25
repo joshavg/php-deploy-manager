@@ -3,14 +3,15 @@
     <head>
         <meta charset="UTF-8"/>
         <title>{% block title %}PHP Deploy Manager{% endblock %}</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        {% stylesheets '../app/Resources/public/css/*' filter='cssrewrite' %}
+        {% stylesheets 'bundles/app/css/*' filter='cssrewrite' %}
         <link rel="stylesheet" href="{{ asset_url }}"/>
         {% endstylesheets %}
 
         {% javascripts
-        '../app/Resources/public/js/jquery-3.1.1.min.js'
-        '../app/Resources/public/js/bootstrap.min.js' %}
+        '@AppBundle/Resources/public/js/jquery-3.1.1.min.js'
+        '@AppBundle/Resources/public/js/bootstrap.min.js' %}
         <script src="{{ asset_url }}"></script>
         {% endjavascripts %}
 

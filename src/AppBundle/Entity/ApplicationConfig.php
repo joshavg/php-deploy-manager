@@ -57,9 +57,9 @@ class ApplicationConfig
     private $apikey;
 
     /**
-     * @var \DateTime
+     * @var string
      *
-     * @ORM\Column(name="last_deploy", type="datetime", nullable=true)
+     * @ORM\Column(name="last_deploy", type="string", nullable=true)
      */
     private $lastDeploy;
 
@@ -173,7 +173,7 @@ class ApplicationConfig
     /**
      * Set lastDeploy
      *
-     * @param \DateTime $lastDeploy
+     * @param string $lastDeploy
      *
      * @return ApplicationConfig
      */
@@ -187,7 +187,7 @@ class ApplicationConfig
     /**
      * Get lastDeploy
      *
-     * @return \DateTime
+     * @return string
      */
     public function getLastDeploy()
     {

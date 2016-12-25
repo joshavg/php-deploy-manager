@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -10,14 +11,12 @@ class DefaultController extends Controller
 {
     /**
      * @Route("/", name="homepage")
+     * @Template()
      */
     public function indexAction(Request $request)
     {
-        //$apps = $this->getDoctrine()->getRepository('AppBundle:Application')->findAll();
+        $configs = $this->getDoctrine()->getRepository('AppBundle:ApplicationConfig')->findBy([], ['lastDeploy' => 'DESC']);
 
-        // replace this example code with whatever you need
-        return $this->render('default/index.html.twig', [
-            'apps' => []
-        ]);
+        return ['apps' => $configs];
     }
 }

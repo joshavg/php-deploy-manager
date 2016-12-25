@@ -1,0 +1,34 @@
+{% extends '@App/base.html.twig' %}
+
+{% block body %}
+    <h1>{{ 'title.deploy.application'|trans }}</h1>
+
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th>{{ 'th.appconfig.title'|trans }}</th>
+                <th>{{ 'th.appconfig.lastDeploy'|trans }}</th>
+                <th>{{ 'th.appconfig.url'|trans }}</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for app in apps %}
+                <tr>
+                    <td>{{ app.title }}</td>
+                    <td>{{ app.lastDeploy }}</td>
+                    <td>
+                        <a href="{{ app.url }}" target="_blank">
+                            {{ app.url }}
+                        </a>
+                    </td>
+                    <td>
+                        <a href="{{ path('deploy_check', {'configId': app.id}) }}" class="btn btn-default">
+                            <span class="glyphicon glyphicon-arrow-right"></span>
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
