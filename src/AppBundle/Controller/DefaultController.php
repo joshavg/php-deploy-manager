@@ -15,7 +15,8 @@ class DefaultController extends Controller
      */
     public function indexAction(Request $request)
     {
-        $configs = $this->getDoctrine()->getRepository('AppBundle:ApplicationConfig')->findBy([], ['lastDeploy' => 'DESC']);
+        $configs = $this->getDoctrine()->getRepository('AppBundle:ApplicationConfig')
+                        ->findBy([], ['lastDeploy' => 'DESC']);
 
         return ['apps' => $configs];
     }

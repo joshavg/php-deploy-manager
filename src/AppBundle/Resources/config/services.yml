@@ -1,0 +1,20 @@
+services:
+
+  app.deployer:
+    class: AppBundle\Listener\DeployStarter
+    arguments:
+      - "@app.guzzle.client"
+      - "@doctrine.orm.default_entity_manager"
+    tags:
+      - name: kernel.event_listener
+        event: deploy.requested
+        method: onDeployRequested
+
+  app.repo.deploy:
+    class: Doctrine\ORM\EntityRepository
+    factory: ["@doctrine.orm.entity_manager", getRepository]
+    arguments:
+      - AppBundle\Entity\Deploy
+
+  app.guzzle.client:
+    class: GuzzleHttp\Client

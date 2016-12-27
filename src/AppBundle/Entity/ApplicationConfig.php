@@ -59,10 +59,9 @@ class ApplicationConfig
     /**
      * @var string
      *
-     * @ORM\Column(name="last_deploy", type="string", nullable=true)
+     * @ORM\Column(name="last_deploy", type="string", length=50, nullable=true)
      */
     private $lastDeploy;
-
 
     /**
      * Get id

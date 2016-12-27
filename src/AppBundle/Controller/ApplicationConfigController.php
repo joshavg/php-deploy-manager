@@ -5,7 +5,8 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\ApplicationConfig;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Applicationconfig controller.
@@ -26,9 +27,8 @@ class ApplicationConfigController extends Controller
 
         $applicationConfigs = $em->getRepository('AppBundle:ApplicationConfig')->findAll();
 
-        return $this->render('applicationconfig/index.html.twig', array(
-            'applicationConfigs' => $applicationConfigs,
-        ));
+        return $this->render('@App/applicationconfig/index.html.twig',
+                             ['applicationConfigs' => $applicationConfigs,]);
     }
 
     /**
@@ -48,13 +48,13 @@ class ApplicationConfigController extends Controller
             $em->persist($applicationConfig);
             $em->flush($applicationConfig);
 
-            return $this->redirectToRoute('applicationconfig_show', array('id' => $applicationConfig->getId()));
+            return $this->redirectToRoute('applicationconfig_show',
+                                          ['id' => $applicationConfig->getId()]);
         }
 
-        return $this->render('applicationconfig/new.html.twig', array(
-            'applicationConfig' => $applicationConfig,
-            'form' => $form->createView(),
-        ));
+        return $this->render('@App/applicationconfig/new.html.twig',
+                             ['applicationConfig' => $applicationConfig,
+                              'form'              => $form->createView(),]);
     }
 
     /**
@@ -67,10 +67,9 @@ class ApplicationConfigController extends Controller
     {
         $deleteForm = $this->createDeleteForm($applicationConfig);
 
-        return $this->render('applicationconfig/show.html.twig', array(
-            'applicationConfig' => $applicationConfig,
-            'delete_form' => $deleteForm->createView(),
-        ));
+        return $this->render('@App/applicationconfig/show.html.twig',
+                             ['applicationConfig' => $applicationConfig,
+                              'delete_form'       => $deleteForm->createView(),]);
     }
 
     /**
@@ -88,14 +87,14 @@ class ApplicationConfigController extends Controller
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('applicationconfig_edit', array('id' => $applicationConfig->getId()));
+            return $this->redirectToRoute('applicationconfig_edit',
+                                          ['id' => $applicationConfig->getId()]);
         }
 
-        return $this->render('applicationconfig/edit.html.twig', array(
-            'applicationConfig' => $applicationConfig,
-            'edit_form' => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
-        ));
+        return $this->render('@App/applicationconfig/edit.html.twig',
+                             ['applicationConfig' => $applicationConfig,
+                              'edit_form'         => $editForm->createView(),
+                              'delete_form'       => $deleteForm->createView(),]);
     }
 
     /**
@@ -127,10 +126,8 @@ class ApplicationConfigController extends Controller
      */
     private function createDeleteForm(ApplicationConfig $applicationConfig)
     {
-        return $this->createFormBuilder()
-            ->setAction($this->generateUrl('applicationconfig_delete', array('id' => $applicationConfig->getId())))
-            ->setMethod('DELETE')
-            ->getForm()
-        ;
+        return $this->createFormBuilder()->setAction($this->generateUrl('applicationconfig_delete',
+                                                                        ['id' => $applicationConfig->getId()]))
+                    ->setMethod('DELETE')->getForm();
     }
 }

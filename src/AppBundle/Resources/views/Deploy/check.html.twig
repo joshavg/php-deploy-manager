@@ -1,0 +1,46 @@
+{% extends '@App/base.html.twig' %}
+
+{% block body %}
+    <h1>{{ 'title.deploy.check'|trans }}</h1>
+
+    <table class="table table-hover table-striped">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ applicationConfig.id }}</td>
+            </tr>
+            <tr>
+                <th>Title</th>
+                <td>{{ applicationConfig.title }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ applicationConfig.description }}</td>
+            </tr>
+            <tr>
+                <th>Url</th>
+                <td>
+                    <a href="{{ applicationConfig.url }}" target="_blank">
+                        {{ applicationConfig.url }}
+                    </a>
+                </td>
+            </tr>
+            <tr>
+                <th>Trigger Url</th>
+                <td>{{ applicationConfig.triggerUrl }}</td>
+            </tr>
+            <tr>
+                <th>Api Key</th>
+                <td>{{ applicationConfig.apikey }}</td>
+            </tr>
+            <tr>
+                <th>Last Deploy</th>
+                <td>{% if applicationConfig.lastDeploy %}{{ applicationConfig.lastDeploy|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="" class="btn btn-default">
+        {{ 'btn.deploy.start'|trans }}
+    </a>
+{% endblock %}
