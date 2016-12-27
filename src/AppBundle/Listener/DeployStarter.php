@@ -35,9 +35,11 @@ class DeployStarter
     public function onDeployRequested(DeployRequested $event)
     {
         $config = $event->getConfig();
+        $now = $this->now();
 
         $deploy = new Deploy();
-        $deploy->setStarted($this->now());
+        $config->setLastDeploy($now);
+        $deploy->setStarted($now);
         $deploy->setConfig($config);
 
         $response =

@@ -14,27 +14,6 @@ use Symfony\Component\EventDispatcher\EventDispatcher;
  */
 class DeployController extends Controller
 {
-    /**
-     * @Route("/list/{configId}", name="deploy_list")
-     * @Template()
-     *
-     * @param $configId
-     * @return array
-     */
-    public function listAction($configId)
-    {
-        /** @var ApplicationConfig $config */
-        $config =
-            $this->getDoctrine()->getRepository('AppBundle:ApplicationConfig')->find($configId);
-        $qb = $this->getDoctrine()->getRepository('AppBundle:Deploy')->createQueryBuilder('d');
-        $deploys = $qb->select('d')
-                      ->where('d.config = :config')
-                      ->setParameter('config', $config)
-                      ->getQuery()
-                      ->execute();
-
-        return ['deploys' => $deploys];
-    }
 
     /**
      * @Route("/check/{configId}", name="deploy_check")
@@ -49,11 +28,19 @@ class DeployController extends Controller
         $config =
             $this->getDoctrine()->getRepository('AppBundle:ApplicationConfig')->find($configId);
 
-        return ['applicationConfig' => $config];
+        $qb = $this->getDoctrine()->getRepository('AppBundle:Deploy')->createQueryBuilder('d');
+        $deploys = $qb->select('d')
+                      ->where('d.config = :config')
+                      ->setParameter('config', $config)
+                      ->getQuery()
+                      ->execute();
+
+        return ['applicationConfig' => $config, 'deploys' => $deploys];
     }
 
     /**
      * @Route("/start/{configId}", name="deploy_start")
+     *
      * @param $configId
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
@@ -70,5 +57,17 @@ class DeployController extends Controller
         return $this->redirectToRoute('homepage');
     }
 
+    /**
+     * @Route("/log/{deployId}", name="deploy_log")
+     * @Template()
+     *
+     * @param $deployId
+     * @return array
+     */
+    public function logAction($deployId)
+    {
+        $deploy = $this->getDoctrine()->getRepository('AppBundle:Deploy')->find($deployId);
 
+        return ['deploy' => $deploy];
+    }
 }

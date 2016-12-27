@@ -40,7 +40,40 @@
         </tbody>
     </table>
 
-    <a href="" class="btn btn-default">
+    <a href="{{ path('deploy_start', {'configId': applicationConfig.id}) }}"
+       class="btn btn-warning">
         {{ 'btn.deploy.start'|trans }}
     </a>
+
+    <table class="table table-hover table-striped">
+        <thead>
+            <tr>
+                <th>{{ 'th.deploy.started'|trans }}</th>
+                <th>{{ 'th.deploy.ended'|trans }}</th>
+                <th>{{ 'th.deploy.success'|trans }}</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for deploy in deploys %}
+                <tr>
+                    <td>{{ deploy.started }}</td>
+                    <td>{{ deploy.ended }}</td>
+                    <td>{{ deploy.success }}</td>
+                    <td>
+                        <a href="{{ path('deploy_log', {'deployId': deploy.id}) }}"
+                           class="btn btn-default">
+                            <span class="glyphicon glyphicon-list"></span>
+                        </a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="4">
+                        {{ 'label.deploy.none-for-config'|trans }}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 {% endblock %}

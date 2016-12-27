@@ -52,7 +52,7 @@ class Deploy
     /**
      * @var ApplicationConfig
      *
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\ApplicationConfig")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\ApplicationConfig")
      */
     private $config;
 

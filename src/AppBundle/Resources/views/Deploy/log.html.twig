@@ -1,0 +1,12 @@
+{% extends '@App/base.html.twig' %}
+
+{% block body %}
+    <h1>{{ 'title.deploy.log'|trans }}</h1>
+
+    <pre>{{ deploy.log }}</pre>
+
+    <a href="{{ path('deploy_check', {'configId': deploy.config.id}) }}" class="btn btn-default">
+        <span class="glyphicon glyphicon-chevron-left"></span>
+        {{ 'btn.back'|trans }}
+    </a>
+{% endblock %}
