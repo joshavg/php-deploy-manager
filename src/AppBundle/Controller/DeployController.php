@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\ApplicationConfig;
+use AppBundle\Entity\Deploy;
 use AppBundle\Event\DeployRequested;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -28,9 +29,11 @@ class DeployController extends Controller
         $config =
             $this->getDoctrine()->getRepository('AppBundle:ApplicationConfig')->find($configId);
 
-        $qb = $this->getDoctrine()->getRepository('AppBundle:Deploy')->createQueryBuilder('d');
+        $deployRepo = $this->getDoctrine()->getRepository('AppBundle:Deploy');
+        $qb = $deployRepo->createQueryBuilder('d');
         $deploys = $qb->select('d')
                       ->where('d.config = :config')
+                      ->orderBy('d.started', 'DESC')
                       ->setParameter('config', $config)
                       ->getQuery()
                       ->execute();
@@ -54,7 +57,7 @@ class DeployController extends Controller
         $dispatcher = $this->get('event_dispatcher');
         $dispatcher->dispatch('deploy.requested', new DeployRequested($config));
 
-        return $this->redirectToRoute('homepage');
+        return $this->redirectToRoute('deploy_check', ['configId' => $configId]);
     }
 
     /**
@@ -69,5 +72,23 @@ class DeployController extends Controller
         $deploy = $this->getDoctrine()->getRepository('AppBundle:Deploy')->find($deployId);
 
         return ['deploy' => $deploy];
+    }
+
+    /**
+     * @Route("/clear/{configId}", name="deploy_log_clear")
+     *
+     * @param $configId
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function clearAction($configId)
+    {
+        $this->getDoctrine()
+             ->getRepository('AppBundle:Deploy')
+             ->createQueryBuilder('d')
+             ->delete()
+             ->getQuery()
+             ->execute();
+
+        return $this->redirectToRoute('deploy_check', ['configId' => $configId]);
     }
 }

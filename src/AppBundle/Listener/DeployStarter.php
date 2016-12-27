@@ -7,6 +7,7 @@ use AppBundle\Entity\Deploy;
 use AppBundle\Event\DeployRequested;
 use Doctrine\ORM\EntityManager;
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\RequestException;
 
 class DeployStarter
 {
@@ -42,16 +43,27 @@ class DeployStarter
         $deploy->setStarted($now);
         $deploy->setConfig($config);
 
-        $response =
-            $this->api->get($config->getTriggerUrl(), ['query' => ['key' => $config->getApikey()]]);
+        try {
+            $response = $this->api->get($config->getTriggerUrl(),
+                                        ['query' => ['key' => $config->getApikey()]]);
 
-        $status = $response->getStatusCode();
-        $deploy->setSuccess($status === 200 ? 1 : 0);
+            $status = $response->getStatusCode();
+            $deploy->setSuccess($status === 200 ? 1 : 0);
+            $deploy->setLog($response->getBody());
+        } catch (RequestException $e) {
+            $deploy->setSuccess(0);
+
+            $response = $e->getResponse();
+            if ($response === null) {
+                $deploy->setLog($e->getMessage());
+            } else {
+                $deploy->setLog($e->getMessage() . "\n\n" . $response->getBody());
+            }
+        }
 
         $deploy->setEnded($this->now());
-        $deploy->setLog($response->getBody());
-
         $this->em->persist($deploy);
+        $this->em->persist($config);
         $this->em->flush();
     }
 

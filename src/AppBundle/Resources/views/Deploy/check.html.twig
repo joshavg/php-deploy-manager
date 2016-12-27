@@ -35,15 +35,23 @@
             </tr>
             <tr>
                 <th>Last Deploy</th>
-                <td>{% if applicationConfig.lastDeploy %}{{ applicationConfig.lastDeploy|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{{ applicationConfig.lastDeploy }}</td>
             </tr>
         </tbody>
     </table>
 
-    <a href="{{ path('deploy_start', {'configId': applicationConfig.id}) }}"
-       class="btn btn-warning">
-        {{ 'btn.deploy.start'|trans }}
-    </a>
+    <div class="btn-group">
+        <a href="{{ path('deploy_start', {'configId': applicationConfig.id}) }}"
+           class="btn btn-warning">
+            <span class="glyphicon glyphicon-ok"></span>
+            {{ 'btn.deploy.start'|trans }}
+        </a>
+        <a href="{{ path('deploy_log_clear', {'configId': applicationConfig.id}) }}"
+           class="btn btn-danger">
+            <span class="glyphicon glyphicon-trash"></span>
+            {{ 'btn.deploy.log.clear'|trans }}
+        </a>
+    </div>
 
     <table class="table table-hover table-striped">
         <thead>
